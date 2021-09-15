@@ -31,4 +31,4 @@
 
     - [x] Have a banner show round result.
 
-- [ ] Write tests for github_stars.go [WIP]
+- [x] Write tests for github_stars.go
