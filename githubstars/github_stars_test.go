@@ -24,3 +24,31 @@ func TestGithub_stars(t *testing.T) {
 		t.Fatal("JSON unmarshall failed.")
 	}
 }
+
+func TestCustomQueryPrameters(t *testing.T) {
+
+	var testCase = []struct {
+		language       string
+		queryParameter string
+	}{
+		{
+			language:       "golang",
+			queryParameter: "?q=language:golang&sort=stars&per_page=50",
+		},
+		{
+			language:       "TypeScript",
+			queryParameter: "?q=language:TypeScript&sort=stars&per_page=50",
+		},
+		{
+			language:       "",
+			queryParameter: "?q=is:public&sort=stars&per_page=50",
+		},
+	}
+
+	for _, test := range testCase {
+		actual := customQueryParameters(test.language)
+		if actual != test.queryParameter {
+			t.Fatalf("Custom Query Parameter fails.")
+		}
+	}
+}
