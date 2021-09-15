@@ -57,7 +57,7 @@ func printToCLI() {
 func getLanguage() string {
 	var language string
 	fmt.Printf("\n\n\tEnter a language of your choice (Just press enter if no preference):")
-	_, err := fmt.Scan(&language)
+	_, err := fmt.Scanf("%s", language)
 	if err != nil && (err.Error() != "unexpected newline") {
 		log.Fatal(err)
 	}
@@ -66,9 +66,9 @@ func getLanguage() string {
 }
 
 func displayRoundHeader(roundnumber, totalrounds int) {
-	fmt.Println("\t**********************************")
-	fmt.Printf("\t*********Round No: %v / %v*********\n", roundnumber, MaxRounds)
-	fmt.Println("\t**********************************")
+	fmt.Println("\n\t**********************************")
+	fmt.Printf("\n\t*******  Round No: %v / %v  ********\n", roundnumber, MaxRounds)
+	fmt.Println("\n\t**********************************")
 }
 
 func randomRepo(n int) int {
