@@ -1,10 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"iamargus95/githubGuessStars/cli"
+)
 
 func main() {
-	var language string
-	fmt.Scanln(&language)
-
-	data, statusCode := githubstars.GetTrendingRepos(language)
+	cli.Start()
 }
