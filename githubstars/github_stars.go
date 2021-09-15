@@ -2,18 +2,18 @@ package githubstars
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
 type RepoInfo struct {
-	Id              int
-	Name            string
-	Description     string
-	StargazersCount int
-	Language        string
+	Id          int    `json:"id"`
+	Name        string `json:"full_name"`
+	Description string `json:"description"`
+	Stars       int    `json:"stargazers_count"`
+	Forks       int    `json:"forks_count"`
+	Language    string `json:"language"`
 }
 
 type SearchData struct {
@@ -29,9 +29,9 @@ func responseToJson(data []byte) SearchData {
 func customQueryParameters(language string) string {
 	var queryParameter string
 	if language != "" {
-		queryParameter = fmt.Sprintf("?q=language:%v&sort=stars&per_page=50", language)
+		queryParameter = "?q=language:" + language + "&sort=stars&per_page=50" //language query
 	} else {
-		queryParameter = fmt.Sprintf("?q=is:public&sort=stars&per_page=50") //Default
+		queryParameter = "?q=is:public&sort=stars&per_page=50" //Default
 	}
 	return queryParameter
 }
@@ -41,11 +41,7 @@ func GetTrendingRepos(language string) (SearchData, int) {
 
 	queryParams := customQueryParameters(language)
 
-	request, _ := http.NewRequest(
-		"GET",
-		url+queryParams,
-		nil,
-	)
+	request, _ := http.NewRequest("GET", url+queryParams, nil)
 
 	request.Header.Add("accept", "application/vnd.github.v3+json")
 	resp, err := http.DefaultClient.Do(request)
@@ -55,11 +51,6 @@ func GetTrendingRepos(language string) (SearchData, int) {
 
 	data, _ := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
-
-	isValid := json.Valid(data)
-	if !isValid {
-		log.Fatal("Invalid JSON response")
-	}
 
 	searchResult := responseToJson(data)
 
